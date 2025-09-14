@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BERAT İLETİŞİM - Ürün Fiyat Listesi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a5276 0%, #2e86c1 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .logo span {
+            color: #ffcc00;
+        }
+        
+        .header-contact {
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            background-color: #eaf2f8;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background-color: #2e86c1;
+            color: white;
+        }
+        
+        .filter-sort {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .sort-filter {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-filter select {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2e86c1;
+            font-size: 3rem;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1a5276;
+        }
+        
+        .product-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2e86c1;
+            margin-bottom: 15px;
+        }
+        
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .add-to-cart {
+            padding: 10px 20px;
+            background-color: #2e86c1;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #1a5276;
+        }
+        
+        .cart-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .cart-title {
+            font-size: 1.5rem;
+            color: #1a5276;
+        }
+        
+        .cart-items {
+            margin-bottom: 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 15px;
+            color: #1a5276;
+        }
+        
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .checkout-btn:hover {
+            background-color: #128C7E;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 30px;
+        }
+        
+        .footer-contact {
+            font-size: 1.2rem;
+            margin: 15px 0;
+        }
+        
+        .whatsapp-contact {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        
+        .whatsapp-contact:hover {
+            background-color: #128C7E;
+        }
+        
+        /* Admin Panel Styles */
+        .admin-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .admin-toggle {
+            background-color: #1a5276;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .admin-toggle:hover {
+            background-color: #2e86c1;
+            transform: rotate(90deg);
+        }
+        
+        .admin-login {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            width: 300px;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            display: none;
+        }
+        
+        .admin-login h3 {
+            margin-bottom: 15px;
+            color: #1a5276;
+            text-align: center;
+        }
+        
+        .admin-login input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .admin-login button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1a5276;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .admin-panel.active .admin-login {
+            display: block;
+        }
+        
+        .admin-editor {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            width: 400px;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            display: none;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .admin-editor h3 {
+            margin-bottom: 15px;
+            color: #1a5276;
+            text-align: center;
+        }
+        
+        .admin-editor input, .admin-editor textarea, .admin-editor select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .admin-editor textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .admin-editor button {
+            padding: 10px 15px;
+            background-color: #1a5276;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .admin-editor button.cancel {
+            background-color: #e74c3c;
+        }
+        
+        .admin-panel.editor-active .admin-editor {
+            display: block;
+        }
+        
+        .admin-panel.editor-active .admin-login {
+            display: none;
+        }
+        
+        .product-list {
+            margin-top: 20px;
+        }
+        
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .product-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .product-item-actions button {
+            padding: 5px 10px;
+            margin-left: 5px;
+            background-color: #2e86c1;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .product-item-actions button.delete {
+            background-color: #e74c3c;
+        }
+        
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .filter-sort {
+                flex-direction: column;
+            }
+            
+            .sort-filter {
+                width: 100%;
+            }
+            
+            .sort-filter select {
+                flex: 1;
+            }
+            
+            .admin-login, .admin-editor {
+                width: 300px;
+                right: 10px;
+            }
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-panel" id="admin-panel">
+        <button class="admin-toggle" id="admin-toggle">
+            <i class="fas fa-cog"></i>
+        </button>
+        <div class="admin-login" id="admin-login">
+            <h3>Admin Girişi</h3>
+            <input type="text" id="admin-username" placeholder="Kullanıcı Adı">
+            <input type="password" id="admin-password" placeholder="Şifre">
+            <button id="admin-login-btn">Giriş Yap</button>
+        </div>
+        <div class="admin-editor" id="admin-editor">
+            <h3>Ürün Yönetimi</h3>
+            <input type="text" id="edit-name" placeholder="Ürün Adı">
+            <textarea id="edit-description" placeholder="Ürün Açıklaması"></textarea>
+            <input type="number" id="edit-price" placeholder="Fiyat" step="0.01">
+            <select id="edit-category">
+                <option value="laptop">Laptop</option>
+                <option value="tablet">Tablet</option>
+                <option value="phone">Telefon</option>
+                <option value="accessory">Aksesuar</option>
+            </select>
+            <select id="edit-image">
+                <option value="laptop">Laptop</option>
+                <option value="tablet">Tablet</option>
+                <option value="mobile">Telefon</option>
+                <option value="battery">Şarj Cihazı</option>
+                <option value="headphones">Kulaklık</option>
+                <option value="smartwatch">Akıllı Saat</option>
+            </select>
+            <div>
+                <button id="save-product">Kaydet</button>
+                <button id="cancel-edit" class="cancel">İptal</button>
+            </div>
+            
+            <div class="product-list">
+                <h4>Mevcut Ürünler</h4>
+                <div id="admin-product-list">
+                    <!-- Products will be listed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="logo">BERAT <span>İLETİŞİM</span></div>
+            <p>Kaliteli Ürünler, Uygun Fiyatlar</p>
+            <div class="header-contact">
+                <p><i class="fas fa-phone"></i> 0530 890 57 39 | 0535 927 63 69</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="category-filter">
+            <button class="category-btn active" data-category="all">Tüm Ürünler</button>
+            <button class="category-btn" data-category="laptop">Laptop</button>
+            <button class="category-btn" data-category="tablet">Tablet</button>
+            <button class="category-btn" data-category="phone">Telefon</button>
+            <button class="category-btn" data-category="accessory">Aksesuar</button>
+        </div>
+
+        <div class="filter-sort">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Ürün ara...">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="sort-filter">
+                <select id="sort-select">
+                    <option value="default">Varsayılan Sıralama</option>
+                    <option value="price-asc">Fiyat (Artan)</option>
+                    <option value="price-desc">Fiyat (Azalan)</option>
+                    <option value="name-asc">İsim (A-Z)</option>
+                    <option value="name-desc">İsim (Z-A)</option>
+                </select>
+                <select id="filter-select">
+                    <option value="all">Tüm Ürünler</option>
+                    <option value="0-1000">1000 TL altı</option>
+                    <option value="1000-3000">1000 - 3000 TL</option>
+                    <option value="3000-5000">3000 - 5000 TL</option>
+                    <option value="5000+">5000 TL üstü</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="products-grid" id="products-container">
+            <!-- Products will be loaded here by JavaScript -->
+        </div>
+
+        <div class="cart-section">
+            <div class="cart-header">
+                <h2 class="cart-title">Sepetiniz</h2>
+                <span id="cart-count">0 ürün</span>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <div class="empty-cart">Sepetinizde ürün bulunmamaktadır</div>
+            </div>
+            <div class="cart-total" id="cart-total">Toplam: 0.00 TL</div>
+            <button class="checkout-btn" id="checkout-btn" disabled>
+                <i class="fab fa-whatsapp"></i> WhatsApp ile Sipariş Ver
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <h3>BERAT İLETİŞİM</h3>
+            <p>Kaliteli ürünler ve müşteri memnuniyeti için buradayız!</p>
+            <div class="footer-contact">
+                <p><i class="fas fa-phone"></i> 0530 890 57 39 | 0535 927 63 69</p>
+            </div>
+            <a href="https://wa.me/905308905739?text=Merhaba,%20ürünleriniz%20hakkında%20bilgi%20almak%20istiyorum." class="whatsapp-contact">
+                <i class="fab fa-whatsapp"></i> WhatsApp'tan Yazın
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Sample product data
+        let products = [
+            {
+                id: 1,
+                name: "Dell XPS 13 Laptop",
+                description: "Intel i7 işlemci, 16GB RAM, 512GB SSD",
+                price: 12999.99,
+                category: "laptop",
+                image: "laptop"
+            },
+            {
+                id: 2,
+                name: "iPad Pro 11",
+                description: "M2 çip, 128GB, WiFi",
+                price: 8999.99,
+                category: "tablet",
+                image: "tablet"
+            },
+            {
+                id: 3,
+                name: "iPhone 14 Pro",
+                description: "128GB, Space Black",
+                price: 14999.99,
+                category: "phone",
+                image: "mobile"
+            },
+            {
+                id: 4,
+                name: "Samsung Galaxy S23",
+                description: "256GB, Phantom Black",
+                price: 11999.99,
+                category: "phone",
+                image: "mobile"
+            },
+            {
+                id: 5,
+                name: "MacBook Air M2",
+                description: "Apple M2 çip, 8GB RAM, 256GB SSD",
+                price: 15999.99,
+                category: "laptop",
+                image: "laptop"
+            },
+            {
+                id: 6,
+                name: "Samsung Galaxy Tab S8",
+                description: "128GB, WiFi, Graphite",
+                price: 7999.99,
+                category: "tablet",
+                image: "tablet"
+            },
+            {
+                id: 7,
+                name: "Kablosuz Şarj Aleti",
+                description: "15W hızlı şarj, Qi uyumlu",
+                price: 499.99,
+                category: "accessory",
+                image: "battery"
+            },
+            {
+                id: 8,
+                name: "Apple Watch Series 8",
+                description: "45mm, GPS, Midnight",
+                price: 5999.99,
+                category: "accessory",
+                image: "smartwatch"
+            }
+        ];
+
+        // Admin credentials
+        const adminUsername = "admin";
+        const adminPassword = "berat123";
+        let isAdminLoggedIn = false;
+        let editingProductId = null;
+
+        // Cart functionality
+        let cart = [];
+        const cartItems = document.getElementById('cart-items');
+        const cartCount = document.getElementById('cart-count');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const productsContainer = document.getElementById('products-container');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const searchInput = document.getElementById('search-input');
+        const sortSelect = document.getElementById('sort-select');
+        const filterSelect = document.getElementById('filter-select');
+
+        // Admin elements
+        const adminPanel = document.getElementById('admin-panel');
+        const adminToggle = document.getElementById('admin-toggle');
+        const adminLogin = document.getElementById('admin-login');
+        const adminEditor = document.getElementById('admin-editor');
+        const adminLoginBtn = document.getElementById('admin-login-btn');
+        const adminProductList = document.getElementById('admin-product-list');
+        const saveProductBtn = document.getElementById('save-product');
+        const cancelEditBtn = document.getElementById('cancel-edit');
+
+        // Initialize
+        displayProducts(products);
+        updateAdminProductList();
+        
+        // Event listeners for admin panel
+        adminToggle.addEventListener('click', () => {
+            if (!isAdminLoggedIn) {
+                adminPanel.classList.toggle('active');
+            } else {
+                adminPanel.classList.toggle('editor-active');
+            }
+        });
+        
+        adminLoginBtn.addEventListener('click', () => {
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+            
+            if (username === adminUsername && password === adminPassword) {
+                isAdminLoggedIn = true;
+                adminPanel.classList.remove('active');
+                adminPanel.classList.add('editor-active');
+            } else {
+                alert('Kullanıcı adı veya şifre hatalı!');
+            }
+        });
+        
+        saveProductBtn.addEventListener('click', () => {
+            const name = document.getElementById('edit-name').value;
+            const description = document.getElementById('edit-description').value;
+            const price = parseFloat(document.getElementById('edit-price').value);
+            const category = document.getElementById('edit-category').value;
+            const image = document.getElementById('edit-image').value;
+            
+            if (!name || !description || !price || !category) {
+                alert('Lütfen tüm alanları doldurun!');
+                return;
+            }
+            
+            if (editingProductId) {
+                // Update existing product
+                const index = products.findIndex(p => p.id === editingProductId);
+                if (index !== -1) {
+                    products[index] = {
+                        ...products[index],
+                        name,
+                        description,
+                        price,
+                        category,
+                        image
+                    };
+                }
+            } else {
+                // Add new product
+                const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+                products.push({
+                    id: newId,
+                    name,
+                    description,
+                    price,
+                    category,
+                    image
+                });
+            }
+            
+            // Reset form
+            document.getElementById('edit-name').value = '';
+            document.getElementById('edit-description').value = '';
+            document.getElementById('edit-price').value = '';
+            document.getElementById('edit-category').value = 'laptop';
+            document.getElementById('edit-image').value = 'laptop';
+            editingProductId = null;
+            
+            // Update displays
+            displayProducts(products);
+            updateAdminProductList();
+            filterAndSortProducts();
+            
+            alert('Ürün başarıyla kaydedildi!');
+        });
+        
+        cancelEditBtn.addEventListener('click', () => {
+            document.getElementById('edit-name').value = '';
+            document.getElementById('edit-description').value = '';
+            document.getElementById('edit-price').value = '';
+            document.getElementById('edit-category').value = 'laptop';
+            document.getElementById('edit-image').value = 'laptop';
+            editingProductId = null;
+        });
+
+        // Display products
+        function displayProducts(productsToDisplay) {
+            productsContainer.innerHTML = '';
+            
+            if (productsToDisplay.length === 0) {
+                productsContainer.innerHTML = '<div class="empty-cart">Bu kriterlere uygun ürün bulunamadı</div>';
+                return;
+            }
+            
+            productsToDisplay.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <i class="fas fa-${product.image}"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">${product.price.toFixed(2)} TL</div>
+                        <div class="product-actions">
+                            <button class="add-to-cart" data-id="${product.id}">Sepete Ekle</button>
+                        </div>
+                    </div>
+                `;
+                productsContainer.appendChild(productCard);
+            });
+            
+            // Add event listeners to add to cart buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.getAttribute('data-id'));
+                    addToCart(productId);
+                });
+            });
+        }
+
+        // Update admin product list
+        function updateAdminProductList() {
+            adminProductList.innerHTML = '';
+            
+            products.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.className = 'product-item';
+                productItem.innerHTML = `
+                    <div>
+                        <strong>${product.name}</strong>
+                        <div>${product.price.toFixed(2)} TL</div>
+                    </div>
+                    <div class="product-item-actions">
+                        <button class="edit" data-id="${product.id}">Düzenle</button>
+                        <button class="delete" data-id="${product.id}">Sil</button>
+                    </div>
+                `;
+                adminProductList.appendChild(productItem);
+            });
+            
+            // Add event listeners to edit and delete buttons
+            document.querySelectorAll('.product-item-actions .edit').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.getAttribute('data-id'));
+                    editProduct(productId);
+                });
+            });
+            
+            document.querySelectorAll('.product-item-actions .delete').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.getAttribute('data-id'));
+                    deleteProduct(productId);
+                });
+            });
+        }
+        
+        // Edit product
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            document.getElementById('edit-name').value = product.name;
+            document.getElementById('edit-description').value = product.description;
+            document.getElementById('edit-price').value = product.price;
+            document.getElementById('edit-category').value = product.category;
+            document.getElementById('edit-image').value = product.image;
+            editingProductId = productId;
+        }
+        
+        // Delete product
+        function deleteProduct(productId) {
+            if (confirm('Bu ürünü silmek istediğinize emin misiniz?')) {
+                products = products.filter(p => p.id !== productId);
+                displayProducts(products);
+                updateAdminProductList();
+                filterAndSortProducts();
+                alert('Ürün silindi!');
+            }
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            
+            // Show notification
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.backgroundColor = '#2e86c1';
+            notification.style.color = 'white';
+            notification.style.padding = '10px 20px';
+            notification.style.borderRadius = '5px';
+            notification.style.zIndex = '1000';
+            notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
+            notification.textContent = `${product.name} sepete eklendi!`;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 2000);
+        }
+
+        // Update cart
+        function updateCart() {
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="empty-cart">Sepetinizde ürün bulunmamaktadır</div>';
+                checkoutBtn.disabled = true;
+            } else {
+                checkoutBtn.disabled = false;
+                cart.forEach(item => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <div>
+                            <strong>${item.name}</strong>
+                            <div>${item.price.toFixed(2)} TL x ${item.quantity}</div>
+                        </div>
+                        <div>
+                            <strong>${(item.price * item.quantity).toFixed(2)} TL</strong>
+                        </div>
+                    `;
+                    cartItems.appendChild(cartItem);
+                });
+            }
+            
+            cartCount.textContent = `${cart.reduce((total, item) => total + item.quantity, 0)} ürün`;
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = `Toplam: ${total.toFixed(2)} TL`;
+        }
+
+        // Filter and sort products
+        function filterAndSortProducts() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const sortValue = sortSelect.value;
+            const filterValue = filterSelect.value;
+            const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+            
+            let filteredProducts = products;
+            
+            // Filter by category
+            if (activeCategory !== 'all') {
+                filteredProducts = filteredProducts.filter(product => product.category === activeCategory);
+            }
+            
+            // Filter by search term
+            if (searchTerm) {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) || 
+                    product.description.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Filter by price range
+            if (filterValue !== 'all') {
+                if (filterValue === '0-1000') {
+                    filteredProducts = filteredProducts.filter(product => product.price < 1000);
+                } else if (filterValue === '1000-3000') {
+                    filteredProducts = filteredProducts.filter(product => product.price >= 1000 && product.price <= 3000);
+                } else if (filterValue === '3000-5000') {
+                    filteredProducts = filteredProducts.filter(product => product.price >= 3000 && product.price <= 5000);
+                } else if (filterValue === '5000+') {
+                    filteredProducts = filteredProducts.filter(product => product.price > 5000);
+                }
+            }
+            
+            // Sort products
+            if (sortValue === 'price-asc') {
+                filteredProducts.sort((a, b) => a.price - b.price);
+            } else if (sortValue === 'price-desc') {
+                filteredProducts.sort((a, b) => b.price - a.price);
+            } else if (sortValue === 'name-asc') {
+                filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortValue === 'name-desc') {
+                filteredProducts.sort((a, b) => b.name.localeCompare(a.name));
+            }
+            
+            displayProducts(filteredProducts);
+        }
+
+        // Event listeners
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                filterAndSortProducts();
+            });
+        });
+        
+        searchInput.addEventListener('input', filterAndSortProducts);
+        sortSelect.addEventListener('change', filterAndSortProducts);
+        filterSelect.addEventListener('change', filterAndSortProducts);
+        
+        // Checkout via WhatsApp
+        checkoutBtn.addEventListener('click', () => {
+            let message = "Merhaba, aşağıdaki ürünleri sipariş vermek istiyorum:%0A%0A";
+            
+            cart.forEach(item => {
+                message += `- ${item.name} (${item.quantity} adet) - ${(item.price * item.quantity).toFixed(2)} TL%0A`;
+            });
+            
+            message += `%0AToplam Tutar: ${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)} TL`;
+            
+            window.open(`https://wa.me/905308905739?text=${message}`, '_blank');
+        });
+    </script>
+</body>
+</html>
